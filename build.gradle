@@ -1,0 +1,49 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+apply from: 'versions.gradle'
+
+sourceCompatibility = 1.8
+
+version '0.0.1'
+
+idea {
+	module {
+		excludeDirs += file('.idea')
+		excludeDirs += file('gradle')
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+configurations {
+	all*.exclude group: 'org.hamcrest', module: 'hamcrest-core'
+}
+
+dependencies {
+	testCompile "junit:junit:${versions.junit}"
+	testCompile "org.hamcrest:hamcrest-all:${versions.hamcrest}"
+	testCompile "org.mockito:mockito-core:${versions.mockito}"
+}
+
+publishing {
+	repositories {
+		maven {
+			url 'file:///$GRADLE_USER_HOME/.m2/repository'
+		}
+	}
+
+	publications {
+		mavenJava(MavenPublication) {
+			groupId 'com.perihelios.math'
+			artifactId 'functor-java'
+			version "$version"
+
+			from components.java
+		}
+	}
+}
