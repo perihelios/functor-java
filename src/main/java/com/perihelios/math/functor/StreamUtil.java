@@ -14,16 +14,16 @@ public class StreamUtil {
 		return StreamSupport.stream(new BaseSpliterator<T>() {
 			@Override
 			public boolean tryAdvance(Consumer<? super T> action) {
-				AtomicBoolean bool = new AtomicBoolean(true);
+				AtomicBoolean predicateFailed = new AtomicBoolean(true);
 
 				return sourceSpliterator.tryAdvance(t -> {
 					if (predicate.test(t)) {
 						action.accept(t);
 					} else {
-						bool.set(false);
+						predicateFailed.set(false);
 						stream.close();
 					}
-				}) && bool.get();
+				}) && predicateFailed.get();
 			}
 		}, stream.isParallel());
 	}
