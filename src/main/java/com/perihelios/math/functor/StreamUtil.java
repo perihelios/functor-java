@@ -11,7 +11,7 @@ public class StreamUtil {
 	public static <T> Stream<T> takeWhile(Stream<T> stream, Predicate<T> predicate) {
 		Spliterator<T> sourceSpliterator = stream.spliterator();
 
-		return StreamSupport.stream(new BaseSpliterator<T>() {
+		return StreamSupport.stream(new SplitlessSpliterator<T>() {
 			@Override
 			public boolean tryAdvance(Consumer<? super T> action) {
 				AtomicBoolean predicateFailed = new AtomicBoolean(true);

@@ -2,7 +2,7 @@ package com.perihelios.math.functor;
 
 import java.util.Spliterator;
 
-public abstract class BaseSpliterator<T> implements Spliterator<T> {
+public abstract class SplitlessSpliterator<T> implements Spliterator<T> {
 	@Override
 	public Spliterator<T> trySplit() {
 		return null;

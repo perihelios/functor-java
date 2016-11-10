@@ -9,7 +9,7 @@ import static java.math.BigInteger.valueOf;
 
 public class Fibonacci {
 	public static Stream<BigInteger> fibonacci(final BigInteger firstTerm, final BigInteger secondTerm) {
-		return StreamSupport.stream(new BaseSpliterator<BigInteger>() {
+		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
 			private BigInteger next = firstTerm;
 			private BigInteger future = secondTerm;
 
