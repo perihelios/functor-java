@@ -1,13 +1,19 @@
 package com.perihelios.math.functor;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
+import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.asList;
 
 public class SimplePrimeEngine implements PrimeEngine {
@@ -37,7 +43,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 		}
 
 		BigInteger max = squareRootEngine.sqrtFloor(n);
-		buildPrimesTo(max);
+		buildPrimesTo(max, Long.MAX_VALUE);
 		long maxAsLong = max.longValue();
 
 		outer:
@@ -68,12 +74,41 @@ public class SimplePrimeEngine implements PrimeEngine {
 		return factors;
 	}
 
-	private void buildPrimesTo(BigInteger limit) {
-		if (limit.compareTo(MAX_PRIME) > 0) {
+	@Override
+	public Stream<BigInteger> primes() {
+		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
+			Iterator<Long> iterator = knownPrimes.iterator();
+
+			@Override
+			public boolean tryAdvance(Consumer<? super BigInteger> action) {
+				if (iterator != null) {
+					if (iterator.hasNext()) {
+						action.accept(valueOf(iterator.next()));
+						return true;
+					} else {
+						iterator = null;
+					}
+				}
+
+				buildPrimesTo(MAX_PRIME, 1L);
+
+				action.accept(valueOf(knownPrimes.last()));
+				return true;
+			}
+
+			@Override
+			public int characteristics() {
+				return Spliterator.NONNULL | Spliterator.ORDERED;
+			}
+		}, false);
+	}
+
+	private void buildPrimesTo(BigInteger ceiling, long maxCountToFind) {
+		if (ceiling.compareTo(MAX_PRIME) > 0) {
 			throw new IllegalStateException("Cannot compute primes past " + MAX_PRIME);
 		}
 
-		long lim = limit.longValue();
+		long lim = ceiling.longValue();
 
 		if ((lim & 1L) == 0L) {
 			lim++;
@@ -95,8 +130,11 @@ public class SimplePrimeEngine implements PrimeEngine {
 			}
 
 			knownPrimes.add(checked);
+			if (--maxCountToFind == 0) {
+				break;
+			}
 		}
 
-		largestCheckedForPrimeness = lim;
+		largestCheckedForPrimeness = checked - 1L;
 	}
 }

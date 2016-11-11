@@ -2,8 +2,12 @@ package com.perihelios.math.functor;
 
 import org.junit.Test;
 
+import java.util.stream.Collectors;
+
 import static com.perihelios.math.functor.NumberUtil.bigInt;
+import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.TestUtil.treeMap;
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
@@ -21,6 +25,14 @@ public class SimplePrimeEngineTest {
 		assertThat(engine.primeFactorsOf(bigInt(6)), is(treeMap(bigInt(2), 1L, bigInt(3), 1L)));
 		assertThat(engine.primeFactorsOf(bigInt(120)), is(treeMap(bigInt(2), 3L, bigInt(3), 1L, bigInt(5), 1L)));
 		assertThat(engine.primeFactorsOf(bigInt(11562909)), is(treeMap(bigInt(3), 1L, bigInt(29), 2L, bigInt(4583), 1L)));
+	}
+
+	@Test
+	public void primes_works() {
+		assertThat(
+			engine.primes().limit(20).collect(Collectors.toList()),
+			is(asList(bigInts(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71)))
+		);
 	}
 
 	@Test
