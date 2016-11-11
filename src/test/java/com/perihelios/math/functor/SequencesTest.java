@@ -2,9 +2,12 @@ package com.perihelios.math.functor;
 
 import org.junit.Test;
 
+import java.util.stream.Collectors;
+
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.Sequences.rangeProducts;
+import static com.perihelios.math.functor.Sequences.substrings;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -28,6 +31,35 @@ public class SequencesTest {
 			fail("Expected exception " + IllegalArgumentException.class.getName());
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Range start (inclusive) must be less than or equal to range end (exclusive); got start=2, end=1"));
+		}
+	}
+
+	@Test
+	public void substrings_works() {
+		assertThat(substrings("a", 1).collect(Collectors.toList()), is(asList("a")));
+		assertThat(substrings("ab", 1).collect(Collectors.toList()), is(asList("a", "b")));
+		assertThat(substrings("abc", 2).collect(Collectors.toList()), is(asList("ab", "bc")));
+		assertThat(substrings("abcdefghi", 4).collect(Collectors.toList()), is(asList("abcd", "bcde", "cdef", "defg", "efgh", "fghi")));
+	}
+
+	@Test
+	public void substrings_minimum_length() {
+		try {
+			substrings("a", 0);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Length argument must be greater than 0; got 0"));
+		}
+
+	}
+
+	@Test
+	public void substrings_length_not_greater_than_String_length() {
+		try {
+			substrings("a", 2);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Length argument must be no greater than string's length (1); got 2"));
 		}
 	}
 }

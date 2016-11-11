@@ -42,4 +42,34 @@ public class Sequences {
 			}
 		}, false);
 	}
+
+	public static Stream<String> substrings(String str, int length) {
+		if (length < 1) {
+			throw new IllegalArgumentException("Length argument must be greater than 0; got " + length);
+		}
+
+		int strLength = str.length();
+
+		if (length > strLength) {
+			throw new IllegalArgumentException("Length argument must be no greater than string's length (" + strLength + "); got " + length);
+		}
+
+		return StreamSupport.stream(new SplitlessSpliterator<String>() {
+			private int start = 0;
+			private int end = length;
+
+			@Override
+			public boolean tryAdvance(Consumer<? super String> action) {
+				if (end > strLength) {
+					return false;
+				}
+
+				action.accept(str.substring(start, end));
+				start++;
+				end++;
+
+				return true;
+			}
+		}, false);
+	}
 }
