@@ -17,6 +17,16 @@ public class NumberUtil {
 		return bigIntegers;
 	}
 
+	public static BigInteger[] bigInts(String... nums) {
+		BigInteger[] bigIntegers = new BigInteger[nums.length];
+
+		for (int i = 0; i < nums.length; i++) {
+			bigIntegers[i] = new BigInteger(nums[i]);
+		}
+
+		return bigIntegers;
+	}
+
 	public static BigInteger[][] gridFromString(String grid) {
 		grid = grid.trim();
 

@@ -19,10 +19,17 @@ public class NumberUtilTest {
 	}
 
 	@Test
-	public void bigInts_works() {
-		assertThat(bigInts().length, is(0));
+	public void bigInts_long_works() {
+		assertThat(bigInts(new long[0]).length, is(0));
 		assertThat(bigInts(1), is(arrayContaining(BigInteger.valueOf(1L))));
 		assertThat(bigInts(1, 2), is(arrayContaining(BigInteger.valueOf(1L), BigInteger.valueOf(2L))));
+	}
+
+	@Test
+	public void bigInts_String_works() {
+		assertThat(bigInts(new String[0]).length, is(0));
+		assertThat(bigInts("1"), is(arrayContaining(BigInteger.valueOf(1L))));
+		assertThat(bigInts("1", "2"), is(arrayContaining(BigInteger.valueOf(1L), BigInteger.valueOf(2L))));
 	}
 
 	@Test
