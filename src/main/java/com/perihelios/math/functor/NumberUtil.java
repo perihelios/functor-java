@@ -80,6 +80,53 @@ public class NumberUtil {
 		return arr;
 	}
 
+	public static BigInteger[][] triangleFromString(String triangle) {
+		triangle = triangle.trim();
+
+		if (triangle.isEmpty()) {
+			return new BigInteger[0][];
+		}
+
+		String[] rows = triangle.split("\r\n|\n");
+		int rowCount = rows.length;
+		int columnCount = 1;
+
+		BigInteger[][] arr = new BigInteger[rowCount][];
+
+		for (int r = 0; r < rowCount; r++) {
+			String row = rows[r].trim();
+
+			String[] columns;
+			if (row.length() == 0) {
+				columns = new String[0];
+			} else {
+				columns = row.split("\\s+");
+			}
+
+			if (columns.length != columnCount) {
+				throw new IllegalArgumentException("Row " + r + " has " + columns.length + " column(s); expected " + columnCount);
+			}
+
+			arr[r] = new BigInteger[columnCount];
+
+			for (int c = 0; c < columnCount; c++) {
+				BigInteger value;
+
+				try {
+					value = new BigInteger(columns[c]);
+				} catch (NumberFormatException e) {
+					throw new IllegalArgumentException("Value at " + r + ", " + c + " not a decimal integer: " + columns[c]);
+				}
+
+				arr[r][c] = value;
+			}
+
+			columnCount++;
+		}
+
+		return arr;
+	}
+
 	public static BigInteger distinctFactorCount(BigInteger n) {
 		if (n.compareTo(ONE) <= 0) {
 			return ONE;

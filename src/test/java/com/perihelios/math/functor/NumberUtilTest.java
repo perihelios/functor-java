@@ -8,6 +8,7 @@ import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.NumberUtil.distinctFactorCount;
 import static com.perihelios.math.functor.NumberUtil.gridFromString;
+import static com.perihelios.math.functor.NumberUtil.triangleFromString;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -37,29 +38,31 @@ public class NumberUtilTest {
 	public void gridFromString_works() {
 		assertThat(gridFromString("").length, is(0));
 
-		assertThat(gridFromString("1"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString(" ").length, is(0));
+
+		assertThat(gridFromString("1"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1),
 		})));
 
-		assertThat(gridFromString("1 2"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString("1 2"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1, 2),
 		})));
 
-		assertThat(gridFromString("1\t2"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString("1\t2"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1, 2),
 		})));
 
-		assertThat(gridFromString("   1  \t  2 \t"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString("   1  \t  2 \t"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1, 2),
 		})));
 
-		assertThat(gridFromString("1 2\n3 4\r\n5 6"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString("1 2\n3 4\r\n5 6"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1, 2),
 			bigInts(3, 4),
 			bigInts(5, 6),
 		})));
 
-		assertThat(gridFromString("1 2\n3 4\n"), is(arrayContaining(new BigInteger[][]{
+		assertThat(gridFromString("\n1 2\n3 4\n"), is(arrayContaining(new BigInteger[][] {
 			bigInts(1, 2),
 			bigInts(3, 4),
 		})));
@@ -96,6 +99,79 @@ public class NumberUtilTest {
 			fail("Expected exception " + IllegalArgumentException.class.getName());
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Value at 1, 1 not a decimal integer: 4.1"));
+		}
+	}
+
+	@Test
+	public void triangleFromString_works() {
+		assertThat(triangleFromString("").length, is(0));
+
+		assertThat(triangleFromString(" ").length, is(0));
+
+		assertThat(triangleFromString("1"), is(arrayContaining(new BigInteger[][] {
+			bigInts(1),
+		})));
+
+		assertThat(triangleFromString("1\n2 3"), is(arrayContaining(new BigInteger[][] {
+			bigInts(1),
+			bigInts(2, 3),
+		})));
+
+		assertThat(triangleFromString("  \t 1  \r\n  \t2  \t  3  "), is(arrayContaining(new BigInteger[][] {
+			bigInts(1),
+			bigInts(2, 3),
+		})));
+
+		assertThat(triangleFromString("\n1\n2 3\n"), is(arrayContaining(new BigInteger[][] {
+			bigInts(1),
+			bigInts(2, 3),
+		})));
+
+		assertThat(triangleFromString("1\n2 3\n4 5 6"), is(arrayContaining(new BigInteger[][] {
+			bigInts(1),
+			bigInts(2, 3),
+			bigInts(4, 5, 6),
+		})));
+	}
+
+	@Test
+	public void triangleFromString_expects_rows_to_have_consistently_increasing_columns() {
+		try {
+			triangleFromString("1\n2");
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Row 1 has 1 column(s); expected 2"));
+		}
+
+		try {
+			triangleFromString("1\n2 3 4");
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Row 1 has 3 column(s); expected 2"));
+		}
+
+		try {
+			triangleFromString("1\n2 3\n 4 5");
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Row 2 has 2 column(s); expected 3"));
+		}
+	}
+
+	@Test
+	public void triangleFromString_expects_decimal_integers() {
+		try {
+			triangleFromString("a");
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Value at 0, 0 not a decimal integer: a"));
+		}
+
+		try {
+			triangleFromString("1\n2 3.1");
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Value at 1, 1 not a decimal integer: 3.1"));
 		}
 	}
 
