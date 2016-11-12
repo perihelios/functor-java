@@ -213,6 +213,16 @@ public class GridRunSequenceTest {
 	}
 
 	@Test
+	public void gridRuns_assumes_all_Directions_when_none_given() {
+		assertThat(gridRuns(grid(1, 1), 1).collect(Collectors.toList()), is(asList(
+			asList(bigInt(101)), // origin 0,0: horizontal
+			asList(bigInt(101)), // origin 0,0: vertical
+			asList(bigInt(101)), // origin 0,0: diagonal positive
+			asList(bigInt(101))  // origin 0,0: diagonal negative
+		)));
+	}
+
+	@Test
 	public void gridRuns_minimum_runLength() {
 		try {
 			gridRuns(new BigInteger[3][2], 0, HORIZONTAL);

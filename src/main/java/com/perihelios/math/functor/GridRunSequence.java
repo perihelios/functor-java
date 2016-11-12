@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 
 public class GridRunSequence {
 	public static Stream<List<BigInteger>> gridRuns(BigInteger[][] grid, int runLength, Direction... directions) {
-		Set<Direction> dirs = EnumSet.copyOf(asList(directions));
+		Set<Direction> dirs = directions.length > 0 ? EnumSet.copyOf(asList(directions)) : EnumSet.allOf(Direction.class);
 
 		validateArguments(grid, runLength, dirs);
 
