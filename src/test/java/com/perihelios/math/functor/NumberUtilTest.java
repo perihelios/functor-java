@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
+import static com.perihelios.math.functor.NumberUtil.distinctFactorCount;
 import static com.perihelios.math.functor.NumberUtil.gridFromString;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
@@ -96,5 +97,17 @@ public class NumberUtilTest {
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Value at 1, 1 not a decimal integer: 4.1"));
 		}
+	}
+
+	@Test
+	public void distinctFactorCount_works() {
+		assertThat(distinctFactorCount(bigInt(0)), is(bigInt(1)));
+		assertThat(distinctFactorCount(bigInt(1)), is(bigInt(1)));
+		assertThat(distinctFactorCount(bigInt(2)), is(bigInt(2)));
+		assertThat(distinctFactorCount(bigInt(3)), is(bigInt(2)));
+		assertThat(distinctFactorCount(bigInt(4)), is(bigInt(3)));
+		assertThat(distinctFactorCount(bigInt(5)), is(bigInt(2)));
+		assertThat(distinctFactorCount(bigInt(6)), is(bigInt(4)));
+		assertThat(distinctFactorCount(bigInt(76476100)), is(bigInt(36)));
 	}
 }

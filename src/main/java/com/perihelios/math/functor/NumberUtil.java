@@ -2,7 +2,11 @@ package com.perihelios.math.functor;
 
 import java.math.BigInteger;
 
+import static java.math.BigInteger.ONE;
+
 public class NumberUtil {
+	private static final PrimeEngine PRIME_ENGINE = new SimplePrimeEngine(new BinarySearchSquareRootEngine());
+
 	public static BigInteger bigInt(long num) {
 		return BigInteger.valueOf(num);
 	}
@@ -74,6 +78,16 @@ public class NumberUtil {
 		}
 
 		return arr;
+	}
+
+	public static BigInteger distinctFactorCount(BigInteger n) {
+		if (n.compareTo(ONE) <= 0) {
+			return ONE;
+		}
+
+		return BigInteger.valueOf(PRIME_ENGINE.primeFactorsOf(n).values().stream()
+			.mapToLong(i -> i + 1L)
+			.reduce(1L, (a, b) -> a * b));
 	}
 
 	// Prevent instantiation of this class
