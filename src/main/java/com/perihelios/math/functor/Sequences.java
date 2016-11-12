@@ -72,4 +72,21 @@ public class Sequences {
 			}
 		}, false);
 	}
+
+	public static Stream<BigInteger> triangleNumbers() {
+		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
+			private BigInteger next = ONE;
+			private BigInteger increment = ONE;
+
+			@Override
+			public boolean tryAdvance(Consumer<? super BigInteger> action) {
+				action.accept(next);
+
+				increment = increment.add(ONE);
+				next = next.add(increment);
+
+				return true;
+			}
+		}, false);
+	}
 }

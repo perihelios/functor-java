@@ -8,6 +8,7 @@ import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.Sequences.rangeProducts;
 import static com.perihelios.math.functor.Sequences.substrings;
+import static com.perihelios.math.functor.Sequences.triangleNumbers;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -61,5 +62,13 @@ public class SequencesTest {
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Length argument must be no greater than string's length (1); got 2"));
 		}
+	}
+
+	@Test
+	public void triangleNumbers_works() {
+		assertThat(
+			triangleNumbers().limit(20).collect(Collectors.toList()),
+			is(asList(bigInts(1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210)))
+		);
 	}
 }
