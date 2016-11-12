@@ -6,8 +6,12 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
+import static java.math.BigInteger.valueOf;
 
 public class Sequences {
+	private static final BigInteger THREE = valueOf(3L);
+
 	public static Stream<BigInteger> rangeProducts(BigInteger startInclusive, BigInteger endExclusive) {
 		int comp = startInclusive.compareTo(endExclusive);
 
@@ -84,6 +88,31 @@ public class Sequences {
 
 				increment = increment.add(ONE);
 				next = next.add(increment);
+
+				return true;
+			}
+		}, false);
+	}
+
+	public static Stream<BigInteger> collatz(BigInteger n) {
+		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
+			BigInteger next = n;
+
+			@Override
+			public boolean tryAdvance(Consumer<? super BigInteger> action) {
+				if (next.equals(ZERO)) {
+					return false;
+				}
+
+				action.accept(next);
+
+				if (next.equals(ONE)) {
+					next = ZERO;
+				} else if (next.testBit(0)) {
+					next = next.multiply(THREE).add(ONE);
+				} else {
+					next = next.shiftRight(1);
+				}
 
 				return true;
 			}

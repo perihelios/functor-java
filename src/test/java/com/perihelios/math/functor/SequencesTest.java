@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
+import static com.perihelios.math.functor.Sequences.collatz;
 import static com.perihelios.math.functor.Sequences.rangeProducts;
 import static com.perihelios.math.functor.Sequences.substrings;
 import static com.perihelios.math.functor.Sequences.triangleNumbers;
@@ -69,6 +70,29 @@ public class SequencesTest {
 		assertThat(
 			triangleNumbers().limit(20).collect(Collectors.toList()),
 			is(asList(bigInts(1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210)))
+		);
+	}
+
+	@Test
+	public void collatz_works() {
+		assertThat(
+			collatz(bigInt(1)).collect(Collectors.toList()),
+			is(asList(bigInts(1)))
+		);
+
+		assertThat(
+			collatz(bigInt(2)).collect(Collectors.toList()),
+			is(asList(bigInts(2, 1)))
+		);
+
+		assertThat(
+			collatz(bigInt(3)).collect(Collectors.toList()),
+			is(asList(bigInts(3, 10, 5, 16, 8, 4, 2, 1)))
+		);
+
+		assertThat(
+			collatz(bigInt(13)).collect(Collectors.toList()),
+			is(asList(bigInts(13, 40, 20, 10, 5, 16, 8, 4, 2, 1)))
 		);
 	}
 }
