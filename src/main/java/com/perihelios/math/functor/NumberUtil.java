@@ -137,6 +137,26 @@ public class NumberUtil {
 			.reduce(1L, (a, b) -> a * b));
 	}
 
+	public static BigInteger factorial(BigInteger n) {
+		if (n.signum() == -1) {
+			throw new IllegalArgumentException("Factorial not possible for negative number; got " + n);
+		}
+
+		if (n.compareTo(ONE) <= 0) {
+			return ONE;
+		}
+
+		BigInteger product = n;
+		n = n.subtract(ONE);
+
+		while (n.compareTo(ONE) > 0) {
+			product = product.multiply(n);
+			n = n.subtract(ONE);
+		}
+
+		return product;
+	}
+
 	// Prevent instantiation of this class
 	private NumberUtil() {}
 }

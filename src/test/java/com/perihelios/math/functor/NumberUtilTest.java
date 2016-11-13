@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.NumberUtil.distinctFactorCount;
+import static com.perihelios.math.functor.NumberUtil.factorial;
 import static com.perihelios.math.functor.NumberUtil.gridFromString;
 import static com.perihelios.math.functor.NumberUtil.triangleFromString;
 import static org.hamcrest.Matchers.arrayContaining;
@@ -172,6 +173,26 @@ public class NumberUtilTest {
 			fail("Expected exception " + IllegalArgumentException.class.getName());
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Value at 1, 1 not a decimal integer: 3.1"));
+		}
+	}
+
+	@Test
+	public void factorial_works() {
+		assertThat(factorial(bigInt(0)), is(bigInt(1)));
+		assertThat(factorial(bigInt(1)), is(bigInt(1)));
+		assertThat(factorial(bigInt(2)), is(bigInt(2)));
+		assertThat(factorial(bigInt(3)), is(bigInt(6)));
+		assertThat(factorial(bigInt(4)), is(bigInt(24)));
+		assertThat(factorial(bigInt(5)), is(bigInt(120)));
+	}
+
+	@Test
+	public void factorial_minimum() {
+		try {
+			factorial(BigInteger.valueOf(-1L));
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Factorial not possible for negative number; got -1"));
 		}
 	}
 
