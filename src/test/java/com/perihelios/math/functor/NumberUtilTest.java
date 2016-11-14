@@ -9,7 +9,9 @@ import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.NumberUtil.distinctFactorCount;
 import static com.perihelios.math.functor.NumberUtil.factorial;
 import static com.perihelios.math.functor.NumberUtil.gridFromString;
+import static com.perihelios.math.functor.NumberUtil.properDivisors;
 import static com.perihelios.math.functor.NumberUtil.triangleFromString;
+import static com.perihelios.math.functor.TestUtil.treeSet;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -206,5 +208,24 @@ public class NumberUtilTest {
 		assertThat(distinctFactorCount(bigInt(5)), is(bigInt(2)));
 		assertThat(distinctFactorCount(bigInt(6)), is(bigInt(4)));
 		assertThat(distinctFactorCount(bigInt(76476100)), is(bigInt(36)));
+	}
+
+	@Test
+	public void properDivisors_works() {
+		assertThat(properDivisors(1L), is(treeSet(1L)));
+		assertThat(properDivisors(2L), is(treeSet(1L, 2L)));
+		assertThat(properDivisors(3L), is(treeSet(1L, 3L)));
+		assertThat(properDivisors(4L), is(treeSet(1L, 2L, 4L)));
+		assertThat(properDivisors(28L), is(treeSet(1L, 2L, 4L, 7L, 14L, 28L)));
+	}
+
+	@Test
+	public void properDivisors_minimum() {
+		try {
+			properDivisors(0L);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Argument must be greater than 0; got 0"));
+		}
 	}
 }

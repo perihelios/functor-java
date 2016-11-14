@@ -1,6 +1,8 @@
 package com.perihelios.math.functor;
 
 import java.math.BigInteger;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static java.math.BigInteger.ONE;
 
@@ -155,6 +157,23 @@ public class NumberUtil {
 		}
 
 		return product;
+	}
+
+	public static SortedSet<Long> properDivisors(long n) {
+		if (n < 1L) throw new IllegalArgumentException("Argument must be greater than 0; got " + n);
+
+		SortedSet<Long> divisors = new TreeSet<>();
+
+		for (long trialDivisor = 2L; trialDivisor < n; trialDivisor++) {
+			if (n % trialDivisor == 0) {
+				divisors.add(trialDivisor);
+			}
+		}
+
+		divisors.add(1L);
+		divisors.add(n);
+
+		return divisors;
 	}
 
 	// Prevent instantiation of this class
