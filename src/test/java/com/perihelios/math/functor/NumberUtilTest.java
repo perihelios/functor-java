@@ -212,11 +212,11 @@ public class NumberUtilTest {
 
 	@Test
 	public void properDivisors_works() {
-		assertThat(properDivisors(1L), is(treeSet(1L)));
-		assertThat(properDivisors(2L), is(treeSet(1L, 2L)));
-		assertThat(properDivisors(3L), is(treeSet(1L, 3L)));
-		assertThat(properDivisors(4L), is(treeSet(1L, 2L, 4L)));
-		assertThat(properDivisors(28L), is(treeSet(1L, 2L, 4L, 7L, 14L, 28L)));
+		assertThat(properDivisors(1L), is(treeSet()));
+		assertThat(properDivisors(2L), is(treeSet(1L)));
+		assertThat(properDivisors(3L), is(treeSet(1L)));
+		assertThat(properDivisors(4L), is(treeSet(1L, 2L)));
+		assertThat(properDivisors(28L), is(treeSet(1L, 2L, 4L, 7L, 14L)));
 	}
 
 	@Test

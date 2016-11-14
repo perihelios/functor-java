@@ -1,6 +1,7 @@
 package com.perihelios.math.functor;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -161,6 +162,7 @@ public class NumberUtil {
 
 	public static SortedSet<Long> properDivisors(long n) {
 		if (n < 1L) throw new IllegalArgumentException("Argument must be greater than 0; got " + n);
+		if (n == 1L) return Collections.emptySortedSet();
 
 		SortedSet<Long> divisors = new TreeSet<>();
 
@@ -171,7 +173,6 @@ public class NumberUtil {
 		}
 
 		divisors.add(1L);
-		divisors.add(n);
 
 		return divisors;
 	}
