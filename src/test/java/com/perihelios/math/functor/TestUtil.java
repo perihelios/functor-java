@@ -1,5 +1,6 @@
 package com.perihelios.math.functor;
 
+import java.lang.reflect.Field;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -25,6 +26,30 @@ public class TestUtil {
 		}
 
 		return map;
+	}
+
+	public static Object getField(Object instance, String fieldName) {
+		Class<?> type = instance.getClass();
+
+		while (type != Object.class) {
+			Field[] declaredFields = type.getDeclaredFields();
+
+			for (Field declaredField : declaredFields) {
+				if (declaredField.getName().equals(fieldName)) {
+					declaredField.setAccessible(true);
+					try {
+						return declaredField.get(instance);
+					} catch (IllegalAccessException e) {
+						throw new RuntimeException("Failed to obtain value from field " + fieldName + " on instance " + instance);
+					}
+				}
+			}
+
+			type = type.getSuperclass();
+		}
+
+		throw new IllegalArgumentException("No field named " + fieldName + " found on instance of class " + instance.getClass().getName() +
+			" or any of its superclasses");
 	}
 
 	// Prevent instantiation of this class
