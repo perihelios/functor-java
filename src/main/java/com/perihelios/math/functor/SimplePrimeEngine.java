@@ -123,7 +123,11 @@ public class SimplePrimeEngine implements PrimeEngine {
 
 		outer:
 		for ( ; checked <= lim; checked += 2) {
+			long upperBound = squareRootEngine.sqrtFloor(valueOf(checked)).longValue();
+
 			for (long knownPrime : knownPrimes) {
+				if (knownPrime > upperBound) break;
+
 				if (checked % knownPrime == 0) {
 					continue outer;
 				}
@@ -135,6 +139,6 @@ public class SimplePrimeEngine implements PrimeEngine {
 			}
 		}
 
-		largestCheckedForPrimeness = checked - 1L;
+		largestCheckedForPrimeness = checked > lim ? lim : checked;
 	}
 }
