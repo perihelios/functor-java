@@ -123,8 +123,8 @@ public class CombinationsTest {
 
 			assertThat(combinations.size(), is(expectedSize));
 
-			for (List<Integer> permutation : combinations) {
-				assertThat(new HashSet<>(permutation).size(), is(permutation.size()));
+			for (List<Integer> combination : combinations) {
+				assertThat(new HashSet<>(combination).size(), is(combination.size()));
 			}
 		}
 	}
