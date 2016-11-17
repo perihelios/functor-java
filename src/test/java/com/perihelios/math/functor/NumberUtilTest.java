@@ -200,14 +200,14 @@ public class NumberUtilTest {
 
 	@Test
 	public void distinctFactorCount_works() {
-		assertThat(distinctFactorCount(bigInt(0)), is(bigInt(1)));
-		assertThat(distinctFactorCount(bigInt(1)), is(bigInt(1)));
-		assertThat(distinctFactorCount(bigInt(2)), is(bigInt(2)));
-		assertThat(distinctFactorCount(bigInt(3)), is(bigInt(2)));
-		assertThat(distinctFactorCount(bigInt(4)), is(bigInt(3)));
-		assertThat(distinctFactorCount(bigInt(5)), is(bigInt(2)));
-		assertThat(distinctFactorCount(bigInt(6)), is(bigInt(4)));
-		assertThat(distinctFactorCount(bigInt(76476100)), is(bigInt(36)));
+		assertThat(distinctFactorCount(0), is(1L));
+		assertThat(distinctFactorCount(1), is(1L));
+		assertThat(distinctFactorCount(2), is(2L));
+		assertThat(distinctFactorCount(3), is(2L));
+		assertThat(distinctFactorCount(4), is(3L));
+		assertThat(distinctFactorCount(5), is(2L));
+		assertThat(distinctFactorCount(6), is(4L));
+		assertThat(distinctFactorCount(76476100), is(36L));
 	}
 
 	@Test

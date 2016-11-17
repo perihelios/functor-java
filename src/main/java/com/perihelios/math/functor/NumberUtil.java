@@ -130,14 +130,14 @@ public class NumberUtil {
 		return arr;
 	}
 
-	public static BigInteger distinctFactorCount(BigInteger n) {
-		if (n.compareTo(ONE) <= 0) {
-			return ONE;
+	public static long distinctFactorCount(long n) {
+		if (n <= 1L) {
+			return 1L;
 		}
 
-		return BigInteger.valueOf(PRIME_ENGINE.primeFactorsOf(n).values().stream()
+		return PRIME_ENGINE.primeFactorsOf(n).values().stream()
 			.mapToLong(i -> i + 1L)
-			.reduce(1L, (a, b) -> a * b));
+			.reduce(1L, (a, b) -> a * b);
 	}
 
 	public static BigInteger factorial(BigInteger n) {

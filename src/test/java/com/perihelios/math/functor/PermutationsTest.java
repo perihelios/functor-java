@@ -11,8 +11,9 @@ import static com.perihelios.math.functor.NumberUtil.factorial;
 import static com.perihelios.math.functor.Permutations.permutations;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 public class PermutationsTest {
 	@Test

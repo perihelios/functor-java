@@ -2,13 +2,10 @@ package com.perihelios.math.functor;
 
 import org.junit.Test;
 
-import java.math.BigInteger;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import static com.perihelios.math.functor.NumberUtil.bigInt;
-import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -59,42 +56,42 @@ public class LowestCommonMultipleBucketTest {
 
 	@Test
 	public void primeFactorCounts_works() {
-		SortedMap<BigInteger, Long> expected = new TreeMap<>();
+		SortedMap<Long, Long> expected = new TreeMap<>();
 
 		bucket.add(2);
-		expected.put(bigInt(2), 1L);
+		expected.put(2L, 1L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(3);
-		expected.put(bigInt(3), 1L);
+		expected.put(3L, 1L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(4);
-		expected.put(bigInt(2), 2L);
+		expected.put(2L, 2L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(5);
-		expected.put(bigInt(5), 1L);
+		expected.put(5L, 1L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(6);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(7);
-		expected.put(bigInt(7), 1L);
+		expected.put(7L, 1L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(8);
-		expected.put(bigInt(2), 3L);
+		expected.put(2L, 3L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(9);
-		expected.put(bigInt(3), 2L);
+		expected.put(3L, 2L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 
 		bucket.add(7200);
-		expected.put(bigInt(2), 5L);
-		expected.put(bigInt(5), 2L);
+		expected.put(2L, 5L);
+		expected.put(5L, 2L);
 		assertThat(bucket.primeFactorCounts(), is(expected));
 	}
 
@@ -109,7 +106,7 @@ public class LowestCommonMultipleBucketTest {
 		bucket.add(8);
 		bucket.add(9);
 
-		assertThat(bucket.primeFactors(), is(new TreeSet<>(asList(bigInts(2, 3, 5, 7)))));
+		assertThat(bucket.primeFactors(), is(new TreeSet<>(asList(2L, 3L, 5L, 7L))));
 	}
 
 	@Test
@@ -123,6 +120,6 @@ public class LowestCommonMultipleBucketTest {
 		bucket.add(8);
 		bucket.add(9);
 
-		assertThat(bucket.lcm(), is(bigInt(2520)));
+		assertThat(bucket.lcm(), is(2520L));
 	}
 }

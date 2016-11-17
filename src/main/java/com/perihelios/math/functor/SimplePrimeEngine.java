@@ -7,18 +7,15 @@ import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
+import java.util.function.LongConsumer;
+import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
-import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.ZERO;
 import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.asList;
 
 public class SimplePrimeEngine implements PrimeEngine {
-	private static final BigInteger FOUR = BigInteger.valueOf(4L);
-	private static final BigInteger MAX_PRIME = BigInteger.valueOf(Long.MAX_VALUE - 1L);
+	private static final long MAX_PRIME = Long.MAX_VALUE - 1L;
 
 	private final SquareRootEngine squareRootEngine;
 
@@ -30,44 +27,39 @@ public class SimplePrimeEngine implements PrimeEngine {
 	}
 
 	@Override
-	public SortedMap<BigInteger, Long> primeFactorsOf(BigInteger n) {
-		if (n.signum() < 0) {
+	public SortedMap<Long, Long> primeFactorsOf(long n) {
+		if (n < 0L) {
 			throw new IllegalArgumentException("Minimum allowed argument is 0; got " + n);
 		}
 
-		SortedMap<BigInteger, Long> factors = new TreeMap<>();
+		SortedMap<Long, Long> factors = new TreeMap<>();
 
-		if (n.compareTo(FOUR) < 0) {
+		if (n < 4L) {
 			factors.put(n, 1L);
 			return factors;
 		}
 
-		BigInteger max = squareRootEngine.sqrtFloor(n);
+		long max = squareRootEngine.sqrtFloor(BigInteger.valueOf(n)).longValue();
 		buildPrimesTo(max, Long.MAX_VALUE);
-		long maxAsLong = max.longValue();
 
 		outer:
-		while (!n.equals(ONE)) {
+		while (n != 1L) {
 			for (long knownPrime : knownPrimes) {
-				if (knownPrime > maxAsLong) {
+				if (knownPrime > max) {
 					break outer;
 				}
 
-				BigInteger bigKnownPrime = BigInteger.valueOf(knownPrime);
-				BigInteger[] quotientAndRemainder = n.divideAndRemainder(bigKnownPrime);
-
-				if (quotientAndRemainder[1].equals(ZERO)) {
-					n = quotientAndRemainder[0];
-					factors.merge(bigKnownPrime, 1L, (a, b) -> a + b);
+				if (n % knownPrime == 0L) {
+					n = n / knownPrime;
+					factors.merge(knownPrime, 1L, (a, b) -> a + b);
 					break;
 				}
 			}
 
-			max = squareRootEngine.sqrtFloor(n);
-			maxAsLong = max.longValue();
+			max = squareRootEngine.sqrtFloor(BigInteger.valueOf(n)).longValue();
 		}
 
-		if (!n.equals(ONE)) {
+		if (n != 1L) {
 			factors.merge(n, 1L, (a, b) -> a + b);
 		}
 
@@ -75,15 +67,15 @@ public class SimplePrimeEngine implements PrimeEngine {
 	}
 
 	@Override
-	public Stream<BigInteger> primes() {
-		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
+	public LongStream primes() {
+		return StreamSupport.longStream(new SplitlessSpliteratorOfLong() {
 			Iterator<Long> iterator = knownPrimes.iterator();
 
 			@Override
-			public boolean tryAdvance(Consumer<? super BigInteger> action) {
+			public boolean tryAdvance(LongConsumer action) {
 				if (iterator != null) {
 					if (iterator.hasNext()) {
-						action.accept(valueOf(iterator.next()));
+						action.accept(iterator.next());
 						return true;
 					} else {
 						iterator = null;
@@ -92,7 +84,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 
 				buildPrimesTo(MAX_PRIME, 1L);
 
-				action.accept(valueOf(knownPrimes.last()));
+				action.accept(knownPrimes.last());
 				return true;
 			}
 
@@ -103,12 +95,12 @@ public class SimplePrimeEngine implements PrimeEngine {
 		}, false);
 	}
 
-	private void buildPrimesTo(BigInteger ceiling, long maxCountToFind) {
-		if (ceiling.compareTo(MAX_PRIME) > 0) {
+	private void buildPrimesTo(long ceiling, long maxCountToFind) {
+		if (ceiling > MAX_PRIME) {
 			throw new IllegalStateException("Cannot compute primes past " + MAX_PRIME);
 		}
 
-		long lim = ceiling.longValue();
+		long lim = ceiling;
 
 		if ((lim & 1L) == 0L) {
 			lim++;
