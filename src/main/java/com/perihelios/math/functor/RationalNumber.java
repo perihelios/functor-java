@@ -190,4 +190,15 @@ public class RationalNumber extends Number implements Comparable<RationalNumber>
 			return numerator / (double) denominator;
 		}
 	}
+
+	@Override
+	public String toString() {
+		long signedNumerator = negative ? -numerator : numerator;
+
+		if (denominator == 1L) {
+			return String.valueOf(signedNumerator);
+		}
+
+		return signedNumerator + "/" + denominator;
+	}
 }

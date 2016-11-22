@@ -214,4 +214,14 @@ public class RationalNumberTest {
 		assertThat(new RationalNumber(-1, 2).signum(), is(-1L));
 		assertThat(new RationalNumber(-1, -2).signum(), is(1L));
 	}
+
+	@Test
+	public void toString_works() {
+		assertThat(new RationalNumber(1, 1).toString(), is("1"));
+		assertThat(new RationalNumber(-1, 1).toString(), is("-1"));
+		assertThat(new RationalNumber(-14, 2).toString(), is("-7"));
+		assertThat(new RationalNumber(2, 14).toString(), is("1/7"));
+		assertThat(new RationalNumber(2, -3).toString(), is("-2/3"));
+		assertThat(new RationalNumber(-2, 3).toString(), is("-2/3"));
+	}
 }
