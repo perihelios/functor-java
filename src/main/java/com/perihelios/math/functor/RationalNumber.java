@@ -152,7 +152,34 @@ public class RationalNumber extends Number implements Comparable<RationalNumber>
 
 	@Override
 	public int compareTo(RationalNumber o) {
-		throw new UnsupportedOperationException("Method not implemented");
+		if (negative) {
+			if (!o.negative) {
+				return -1;
+			}
+		} else {
+			if (o.negative) {
+				return 1;
+			}
+		}
+
+		if (denominator == 1L) {
+			return Long.compare(numerator * o.denominator, o.numerator);
+		}
+
+		if (o.denominator == 1L) {
+			return Long.compare(numerator, o.numerator * denominator);
+		}
+
+		LowestCommonMultipleBucket bucket = new LowestCommonMultipleBucket(ENGINE);
+		bucket.add(denominator);
+		bucket.add(o.denominator);
+
+		long lcm = bucket.lcm();
+
+		long numerator = this.numerator * lcm / denominator;
+		long numeratorO = o.numerator * lcm / o.denominator;
+
+		return Long.compare(numerator, numeratorO);
 	}
 
 	@Override

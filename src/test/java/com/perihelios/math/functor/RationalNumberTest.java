@@ -224,4 +224,21 @@ public class RationalNumberTest {
 		assertThat(new RationalNumber(2, -3).toString(), is("-2/3"));
 		assertThat(new RationalNumber(-2, 3).toString(), is("-2/3"));
 	}
+
+	@Test
+	public void compareTo_works() {
+		assertThat(new RationalNumber(1, 1).compareTo(new RationalNumber(-1, 1)), is(1));
+		assertThat(new RationalNumber(-1, 1).compareTo(new RationalNumber(1, 1)), is(-1));
+		assertThat(new RationalNumber(1, 1).compareTo(new RationalNumber(1, 1)), is(0));
+		assertThat(new RationalNumber(2, 1).compareTo(new RationalNumber(1, 1)), is(1));
+		assertThat(new RationalNumber(1, 1).compareTo(new RationalNumber(2, 1)), is(-1));
+		assertThat(new RationalNumber(1, 1).compareTo(new RationalNumber(1, 2)), is(1));
+		assertThat(new RationalNumber(1, 2).compareTo(new RationalNumber(1, 1)), is(-1));
+		assertThat(new RationalNumber(1, 2).compareTo(new RationalNumber(1, 3)), is(1));
+		assertThat(new RationalNumber(1, 3).compareTo(new RationalNumber(1, 2)), is(-1));
+		assertThat(new RationalNumber(10, 11).compareTo(new RationalNumber(11, 12)), is(-1));
+		assertThat(new RationalNumber(10, 11).compareTo(new RationalNumber(-11, 12)), is(1));
+		assertThat(new RationalNumber(11, 12).compareTo(new RationalNumber(10, 11)), is(1));
+		assertThat(new RationalNumber(-11, 12).compareTo(new RationalNumber(10, 11)), is(-1));
+	}
 }
