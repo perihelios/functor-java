@@ -1,12 +1,9 @@
 package com.perihelios.math.functor;
 
-import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import static java.math.BigInteger.ONE;
 
 public class LowestCommonMultipleBucket {
 	private final PrimeEngine primeEngine;
