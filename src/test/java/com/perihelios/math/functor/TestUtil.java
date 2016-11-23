@@ -30,6 +30,7 @@ public class TestUtil {
 		return map;
 	}
 
+	@SafeVarargs
 	public static <T> SortedSet<T> treeSet(T... values) {
 		SortedSet<T> set = new TreeSet<>();
 
