@@ -95,6 +95,13 @@ public class SimplePrimeEngine implements PrimeEngine {
 		}, false);
 	}
 
+	@Override
+	public boolean isPrime(long n) {
+		buildPrimesTo(n, Long.MAX_VALUE);
+
+		return knownPrimes.contains(n);
+	}
+
 	private void buildPrimesTo(long ceiling, long maxCountToFind) {
 		if (ceiling > MAX_PRIME) {
 			throw new IllegalStateException("Cannot compute primes past " + MAX_PRIME);

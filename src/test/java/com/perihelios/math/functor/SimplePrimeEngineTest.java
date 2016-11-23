@@ -43,4 +43,13 @@ public class SimplePrimeEngineTest {
 			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));
 		}
 	}
+
+	@Test
+	public void isPrime_works() {
+		assertThat(engine.isPrime(1), is(false));
+		assertThat(engine.isPrime(2), is(true));
+		assertThat(engine.isPrime(3), is(true));
+		assertThat(engine.isPrime(4), is(false));
+		assertThat(engine.isPrime(4583), is(true));
+	}
 }
