@@ -107,21 +107,12 @@ public class SimplePrimeEngine implements PrimeEngine {
 			throw new IllegalStateException("Cannot compute primes past " + MAX_PRIME);
 		}
 
-		long lim = ceiling;
-
-		if ((lim & 1L) == 0L) {
-			lim++;
-		}
-
 		long checked = largestCheckedForPrimeness;
-		checked++;
-
-		if ((checked & 1L) == 0L) {
-			checked++;
-		}
 
 		outer:
-		for ( ; checked <= lim; checked += 2) {
+		while (checked + 2L <= ceiling && maxCountToFind > 0L) {
+			checked += 2L;
+
 			long upperBound = squareRootEngine.sqrtFloor(valueOf(checked)).longValue();
 
 			for (long knownPrime : knownPrimes) {
@@ -133,11 +124,9 @@ public class SimplePrimeEngine implements PrimeEngine {
 			}
 
 			knownPrimes.add(checked);
-			if (--maxCountToFind == 0) {
-				break;
-			}
+			maxCountToFind--;
 		}
 
-		largestCheckedForPrimeness = checked > lim ? lim : checked;
+		largestCheckedForPrimeness = checked;
 	}
 }

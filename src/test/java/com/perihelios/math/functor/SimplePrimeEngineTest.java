@@ -2,11 +2,13 @@ package com.perihelios.math.functor;
 
 import org.junit.Test;
 
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import static com.perihelios.math.functor.TestUtil.treeMap;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -32,6 +34,20 @@ public class SimplePrimeEngineTest {
 			engine.primes().limit(20).boxed().collect(Collectors.toList()),
 			is(asList(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L, 47L, 53L, 59L, 61L, 67L, 71L))
 		);
+	}
+
+	@Test
+	public void primes_works_when_calling_isPrime_in_stream() {
+		AtomicLong saved = new AtomicLong();
+
+		engine.primes()
+			.peek(n -> {
+				assertThat(n, not(saved.get()));
+				saved.set(n);
+				engine.isPrime(1);
+			})
+			.limit(100)
+			.sum();
 	}
 
 	@Test
