@@ -1,6 +1,9 @@
 package com.perihelios.math.functor;
 
 public class RationalNumber extends Number implements Comparable<RationalNumber> {
+	public static final RationalNumber ZERO = new RationalNumber(0L, 1L);
+	public static final RationalNumber ONE = new RationalNumber(1L, 1L);
+
 	private static final PrimeEngine ENGINE = new SimplePrimeEngine(new BinarySearchSquareRootEngine());
 
 	private final long numerator;
@@ -67,11 +70,21 @@ public class RationalNumber extends Number implements Comparable<RationalNumber>
 	}
 
 	public RationalNumber multiply(long n) {
-		throw new UnsupportedOperationException("Method not implemented");
+		if (n == 0L || numerator == 0L) return ZERO;
+		if (n == 1L) return this;
+
+		long signedNumerator = negative ? -numerator : numerator;
+
+		return new RationalNumber(signedNumerator * n, denominator);
 	}
 
 	public RationalNumber multiply(RationalNumber n) {
-		throw new UnsupportedOperationException("Method not implemented");
+		long signedNumeratorN = n.negative ? -n.numerator : n.numerator;
+		long signedNumerator = negative ? -numerator : numerator;
+
+		if (signedNumerator == 0L || signedNumeratorN == 0L) return ZERO;
+
+		return new RationalNumber(signedNumerator * signedNumeratorN, denominator * n.denominator);
 	}
 
 	public RationalNumber add(long n) {

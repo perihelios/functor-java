@@ -99,6 +99,111 @@ public class RationalNumberTest {
 	}
 
 	@Test
+	public void multiply_long() {
+		RationalNumber r;
+
+		r = new RationalNumber(1, 1).multiply(0L);
+		assertThat(r.numerator(), is(0L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(0, 1).multiply(5L);
+		assertThat(r.numerator(), is(0L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 1).multiply(1L);
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 1).multiply(2L);
+		assertThat(r.numerator(), is(2L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 1).multiply(-1L);
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(true));
+
+		r = new RationalNumber(1, 2).multiply(5L);
+		assertThat(r.numerator(), is(5L));
+		assertThat(r.denominator(), is(2L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 2).multiply(-5L);
+		assertThat(r.numerator(), is(5L));
+		assertThat(r.denominator(), is(2L));
+		assertThat(r.isNegative(), is(true));
+
+		r = new RationalNumber(-1, 2).multiply(5L);
+		assertThat(r.numerator(), is(5L));
+		assertThat(r.denominator(), is(2L));
+		assertThat(r.isNegative(), is(true));
+
+		r = new RationalNumber(-1, 2).multiply(-5L);
+		assertThat(r.numerator(), is(5L));
+		assertThat(r.denominator(), is(2L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 4).multiply(10L);
+		assertThat(r.numerator(), is(5L));
+		assertThat(r.denominator(), is(2L));
+		assertThat(r.isNegative(), is(false));
+	}
+
+	@Test
+	public void multiply_RationalNumber() {
+		RationalNumber r;
+
+		r = new RationalNumber(1, 1).multiply(new RationalNumber(0, 1));
+		assertThat(r.numerator(), is(0L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(0, 1).multiply(new RationalNumber(1, 1));
+		assertThat(r.numerator(), is(0L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 1).multiply(new RationalNumber(1, 1));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 1).multiply(new RationalNumber(-1, 1));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(true));
+
+		r = new RationalNumber(-1, 1).multiply(new RationalNumber(1, 1));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(true));
+
+		r = new RationalNumber(-1, 1).multiply(new RationalNumber(-1, 1));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(1, 2).multiply(new RationalNumber(1, 2));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(4L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(3, 4).multiply(new RationalNumber(3, 8));
+		assertThat(r.numerator(), is(9L));
+		assertThat(r.denominator(), is(32L));
+		assertThat(r.isNegative(), is(false));
+
+		r = new RationalNumber(3, 4).multiply(new RationalNumber(4, 3));
+		assertThat(r.numerator(), is(1L));
+		assertThat(r.denominator(), is(1L));
+		assertThat(r.isNegative(), is(false));
+	}
+
+	@Test
 	public void reciprocal_works() {
 		RationalNumber r;
 
