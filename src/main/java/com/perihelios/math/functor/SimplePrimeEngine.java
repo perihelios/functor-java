@@ -40,27 +40,32 @@ public class SimplePrimeEngine implements PrimeEngine {
 		}
 
 		long max = squareRootEngine.sqrtFloor(BigInteger.valueOf(n)).longValue();
+		long working = n;
 		buildPrimesTo(max, Long.MAX_VALUE);
 
 		outer:
-		while (n != 1L) {
+		while (working != 1L) {
 			for (long knownPrime : knownPrimes) {
 				if (knownPrime > max) {
 					break outer;
 				}
 
-				if (n % knownPrime == 0L) {
-					n = n / knownPrime;
+				if (working % knownPrime == 0L) {
+					working = working / knownPrime;
 					factors.merge(knownPrime, 1L, (a, b) -> a + b);
 					break;
 				}
 			}
 
-			max = squareRootEngine.sqrtFloor(BigInteger.valueOf(n)).longValue();
+			if (n == working) {
+				break;
+			}
+
+			max = squareRootEngine.sqrtFloor(BigInteger.valueOf(working)).longValue();
 		}
 
-		if (n != 1L) {
-			factors.merge(n, 1L, (a, b) -> a + b);
+		if (working != 1L) {
+			factors.merge(working, 1L, (a, b) -> a + b);
 		}
 
 		return factors;
