@@ -1,7 +1,10 @@
 package com.perihelios.math.functor;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.Spliterator;
@@ -27,7 +30,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 	}
 
 	@Override
-	public SortedMap<Long, Long> primeFactorsOf(long n) {
+	public SortedMap<Long, Long> primeFactorsCountsOf(long n) {
 		if (n < 0L) {
 			throw new IllegalArgumentException("Minimum allowed argument is 0; got " + n);
 		}
@@ -66,6 +69,23 @@ public class SimplePrimeEngine implements PrimeEngine {
 
 		if (working != 1L) {
 			factors.merge(working, 1L, (a, b) -> a + b);
+		}
+
+		return factors;
+	}
+
+	@Override
+	public List<Long> primeFactorsOf(long n) {
+		SortedMap<Long, Long> primeFactorCounts = primeFactorsCountsOf(n);
+		List<Long> factors = new ArrayList<>(primeFactorCounts.size() << 1);
+
+		for (Map.Entry<Long, Long> entry : primeFactorCounts.entrySet()) {
+			Long factor = entry.getKey();
+			long count = entry.getValue();
+
+			while (count-- > 0L) {
+				factors.add(factor);
+			}
 		}
 
 		return factors;

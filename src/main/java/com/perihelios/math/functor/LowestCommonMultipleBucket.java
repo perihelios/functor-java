@@ -18,7 +18,7 @@ public class LowestCommonMultipleBucket {
 			throw new IllegalArgumentException("Number added must be 2 or greater; got " + n);
 		}
 
-		SortedMap<Long, Long> newFactors = primeEngine.primeFactorsOf(n);
+		SortedMap<Long, Long> newFactors = primeEngine.primeFactorsCountsOf(n);
 
 		for (Map.Entry<Long, Long> entry: newFactors.entrySet()) {
 			Long factor = entry.getKey();

@@ -16,17 +16,50 @@ public class SimplePrimeEngineTest {
 	private SimplePrimeEngine engine = new SimplePrimeEngine(new BinarySearchSquareRootEngine());
 
 	@Test
+	public void primeFactorCountsOf_works() {
+		assertThat(engine.primeFactorsCountsOf(0), is(treeMap(0L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(1), is(treeMap(1L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(2), is(treeMap(2L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(3), is(treeMap(3L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(4), is(treeMap(2L, 2L)));
+		assertThat(engine.primeFactorsCountsOf(5), is(treeMap(5L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(6), is(treeMap(2L, 1L, 3L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(61), is(treeMap(61L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(120), is(treeMap(2L, 3L, 3L, 1L, 5L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(11562909), is(treeMap(3L, 1L, 29L, 2L, 4583L, 1L)));
+	}
+
+	@Test
+	public void primeFactorsCountsOf_minimum() {
+		try {
+			engine.primeFactorsCountsOf(-1L);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));
+		}
+	}
+
+	@Test
 	public void primeFactorsOf_works() {
-		assertThat(engine.primeFactorsOf(0), is(treeMap(0L, 1L)));
-		assertThat(engine.primeFactorsOf(1), is(treeMap(1L, 1L)));
-		assertThat(engine.primeFactorsOf(2), is(treeMap(2L, 1L)));
-		assertThat(engine.primeFactorsOf(3), is(treeMap(3L, 1L)));
-		assertThat(engine.primeFactorsOf(4), is(treeMap(2L, 2L)));
-		assertThat(engine.primeFactorsOf(5), is(treeMap(5L, 1L)));
-		assertThat(engine.primeFactorsOf(6), is(treeMap(2L, 1L, 3L, 1L)));
-		assertThat(engine.primeFactorsOf(61), is(treeMap(61L, 1L)));
-		assertThat(engine.primeFactorsOf(120), is(treeMap(2L, 3L, 3L, 1L, 5L, 1L)));
-		assertThat(engine.primeFactorsOf(11562909), is(treeMap(3L, 1L, 29L, 2L, 4583L, 1L)));
+		assertThat(engine.primeFactorsOf(0L), is(asList(0L)));
+		assertThat(engine.primeFactorsOf(1L), is(asList(1L)));
+		assertThat(engine.primeFactorsOf(2L), is(asList(2L)));
+		assertThat(engine.primeFactorsOf(3L), is(asList(3L)));
+		assertThat(engine.primeFactorsOf(4L), is(asList(2L, 2L)));
+		assertThat(engine.primeFactorsOf(5L), is(asList(5L)));
+		assertThat(engine.primeFactorsOf(6L), is(asList(2L, 3L)));
+		assertThat(engine.primeFactorsOf(120L), is(asList(2L, 2L, 2L, 3L, 5L)));
+		assertThat(engine.primeFactorsOf(11562909L), is(asList(3L, 29L, 29L, 4583L)));
+	}
+
+	@Test
+	public void primeFactorsOf_minimum() {
+		try {
+			engine.primeFactorsOf(-1L);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));
+		}
 	}
 
 	@Test
@@ -49,16 +82,6 @@ public class SimplePrimeEngineTest {
 			})
 			.limit(100)
 			.sum();
-	}
-
-	@Test
-	public void primeFactorsOf_minimum() {
-		try {
-			engine.primeFactorsOf(-1L);
-			fail("Expected exception " + IllegalArgumentException.class.getName());
-		} catch (IllegalArgumentException expected) {
-			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));
-		}
 	}
 
 	@Test

@@ -135,7 +135,7 @@ public class NumberUtil {
 			return 1L;
 		}
 
-		return PRIME_ENGINE.primeFactorsOf(n).values().stream()
+		return PRIME_ENGINE.primeFactorsCountsOf(n).values().stream()
 			.mapToLong(i -> i + 1L)
 			.reduce(1L, (a, b) -> a * b);
 	}
