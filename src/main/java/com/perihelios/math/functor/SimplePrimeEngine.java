@@ -64,6 +64,8 @@ public class SimplePrimeEngine implements PrimeEngine {
 				break;
 			}
 
+			n = working;
+
 			max = squareRootEngine.sqrtFloor(BigInteger.valueOf(working)).longValue();
 		}
 

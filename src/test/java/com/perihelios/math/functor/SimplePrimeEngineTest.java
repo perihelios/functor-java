@@ -25,6 +25,7 @@ public class SimplePrimeEngineTest {
 		assertThat(engine.primeFactorsCountsOf(5), is(treeMap(5L, 1L)));
 		assertThat(engine.primeFactorsCountsOf(6), is(treeMap(2L, 1L, 3L, 1L)));
 		assertThat(engine.primeFactorsCountsOf(61), is(treeMap(61L, 1L)));
+		assertThat(engine.primeFactorsCountsOf(106L), is(treeMap(2L, 1L, 53L, 1L)));
 		assertThat(engine.primeFactorsCountsOf(120), is(treeMap(2L, 3L, 3L, 1L, 5L, 1L)));
 		assertThat(engine.primeFactorsCountsOf(11562909), is(treeMap(3L, 1L, 29L, 2L, 4583L, 1L)));
 	}
@@ -48,6 +49,7 @@ public class SimplePrimeEngineTest {
 		assertThat(engine.primeFactorsOf(4L), is(asList(2L, 2L)));
 		assertThat(engine.primeFactorsOf(5L), is(asList(5L)));
 		assertThat(engine.primeFactorsOf(6L), is(asList(2L, 3L)));
+		assertThat(engine.primeFactorsOf(106L), is(asList(2L, 53L)));
 		assertThat(engine.primeFactorsOf(120L), is(asList(2L, 2L, 2L, 3L, 5L)));
 		assertThat(engine.primeFactorsOf(11562909L), is(asList(3L, 29L, 29L, 4583L)));
 	}
