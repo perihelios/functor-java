@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import static com.perihelios.math.functor.TestUtil.treeMap;
+import static com.perihelios.math.functor.TestUtil.treeSet;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -58,6 +59,30 @@ public class SimplePrimeEngineTest {
 	public void primeFactorsOf_minimum() {
 		try {
 			engine.primeFactorsOf(-1L);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));
+		}
+	}
+
+	@Test
+	public void distinctPrimeFactorsOf_works() {
+		assertThat(engine.distinctPrimeFactorsOf(0L), is(treeSet(0L)));
+		assertThat(engine.distinctPrimeFactorsOf(1L), is(treeSet(1L)));
+		assertThat(engine.distinctPrimeFactorsOf(2L), is(treeSet(2L)));
+		assertThat(engine.distinctPrimeFactorsOf(3L), is(treeSet(3L)));
+		assertThat(engine.distinctPrimeFactorsOf(4L), is(treeSet(2L)));
+		assertThat(engine.distinctPrimeFactorsOf(5L), is(treeSet(5L)));
+		assertThat(engine.distinctPrimeFactorsOf(6L), is(treeSet(2L, 3L)));
+		assertThat(engine.distinctPrimeFactorsOf(106L), is(treeSet(2L, 53L)));
+		assertThat(engine.distinctPrimeFactorsOf(120L), is(treeSet(2L, 3L, 5L)));
+		assertThat(engine.distinctPrimeFactorsOf(11562909L), is(treeSet(3L, 29L, 4583L)));
+	}
+
+	@Test
+	public void distinctPrimeFactorsOf_minimum() {
+		try {
+			engine.distinctPrimeFactorsOf(-1L);
 			fail("Expected exception " + IllegalArgumentException.class.getName());
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Minimum allowed argument is 0; got -1"));

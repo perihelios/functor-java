@@ -94,6 +94,13 @@ public class SimplePrimeEngine implements PrimeEngine {
 	}
 
 	@Override
+	public SortedSet<Long> distinctPrimeFactorsOf(long n) {
+		SortedMap<Long, Long> factorCounts = primeFactorsCountsOf(n);
+
+		return new TreeSet<>(factorCounts.keySet());
+	}
+
+	@Override
 	public LongStream primes() {
 		return StreamSupport.longStream(new SplitlessSpliteratorOfLong() {
 			Iterator<Long> iterator = knownPrimes.iterator();
