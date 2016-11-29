@@ -50,17 +50,11 @@ public class Combinations {
 			indices[i] = i;
 		}
 
+		indices[choose - 1]--;
+
 		return StreamSupport.stream(new SplitlessSpliterator<List<T>>() {
 			@Override
 			public boolean tryAdvance(Consumer<? super List<T>> action) {
-				List<T> combination = new ArrayList<>(choose);
-
-				for (int index: indices) {
-					combination.add(values[index]);
-				}
-
-				action.accept(combination);
-
 				int adjustmentIndex;
 				for (adjustmentIndex = choose - 1; adjustmentIndex >= 0; adjustmentIndex--) {
 					int index = indices[adjustmentIndex];
@@ -79,6 +73,13 @@ public class Combinations {
 					indices[i] = indices[i - 1] + 1;
 				}
 
+				List<T> combination = new ArrayList<>(choose);
+
+				for (int index: indices) {
+					combination.add(values[index]);
+				}
+
+				action.accept(combination);
 				return true;
 			}
 		}, false);
