@@ -77,18 +77,6 @@ public class Sequences {
 		}, false);
 	}
 
-	public static Stream<BigInteger> triangularNumbers() {
-		return StreamSupport.stream(new PolygonalSpliterator(3L), false);
-	}
-
-	public static Stream<BigInteger> pentagonalNumbers() {
-		return StreamSupport.stream(new PolygonalSpliterator(5L), false);
-	}
-
-	public static Stream<BigInteger> hexagonalNumbers() {
-		return StreamSupport.stream(new PolygonalSpliterator(6L), false);
-	}
-
 	public static Stream<BigInteger> collatz(BigInteger n) {
 		return StreamSupport.stream(new SplitlessSpliterator<BigInteger>() {
 			BigInteger next = n;
@@ -112,25 +100,5 @@ public class Sequences {
 				return true;
 			}
 		}, false);
-	}
-
-	private static class PolygonalSpliterator extends SplitlessSpliterator<BigInteger> {
-		private final BigInteger incrementIncrement;
-		private BigInteger next = ONE;
-		private BigInteger increment = ONE;
-
-		private PolygonalSpliterator(long sides) {
-			incrementIncrement = valueOf(sides - 2L);
-		}
-
-		@Override
-		public boolean tryAdvance(Consumer<? super BigInteger> action) {
-			action.accept(next);
-
-			increment = increment.add(incrementIncrement);
-			next = next.add(increment);
-
-			return true;
-		}
 	}
 }

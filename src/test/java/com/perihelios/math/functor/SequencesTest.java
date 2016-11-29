@@ -7,11 +7,8 @@ import java.util.stream.Collectors;
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
 import static com.perihelios.math.functor.Sequences.collatz;
-import static com.perihelios.math.functor.Sequences.hexagonalNumbers;
-import static com.perihelios.math.functor.Sequences.pentagonalNumbers;
 import static com.perihelios.math.functor.Sequences.rangeProducts;
 import static com.perihelios.math.functor.Sequences.substrings;
-import static com.perihelios.math.functor.Sequences.triangularNumbers;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
@@ -65,30 +62,6 @@ public class SequencesTest {
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Length argument must be no greater than string's length (1); got 2"));
 		}
-	}
-
-	@Test
-	public void triangularNumbers_works() {
-		assertThat(
-			triangularNumbers().limit(20).collect(Collectors.toList()),
-			is(asList(bigInts(1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, 120, 136, 153, 171, 190, 210)))
-		);
-	}
-
-	@Test
-	public void pentagonalNumbers_works() {
-		assertThat(
-			pentagonalNumbers().limit(20).collect(Collectors.toList()),
-			is(asList(bigInts(1, 5, 12, 22, 35, 51, 70, 92, 117, 145, 176, 210, 247, 287, 330, 376, 425, 477, 532, 590)))
-		);
-	}
-
-	@Test
-	public void hexagonalNumbers_works() {
-		assertThat(
-			hexagonalNumbers().limit(20).collect(Collectors.toList()),
-			is(asList(bigInts(1, 6, 15, 28, 45, 66, 91, 120, 153, 190, 231, 276, 325, 378, 435, 496, 561, 630, 703, 780)))
-		);
 	}
 
 	@Test
