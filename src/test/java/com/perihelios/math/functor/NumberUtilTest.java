@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 import static com.perihelios.math.functor.NumberUtil.bigInt;
 import static com.perihelios.math.functor.NumberUtil.bigInts;
+import static com.perihelios.math.functor.NumberUtil.digitSum;
 import static com.perihelios.math.functor.NumberUtil.distinctFactorCount;
 import static com.perihelios.math.functor.NumberUtil.factorial;
 import static com.perihelios.math.functor.NumberUtil.gridFromString;
@@ -226,6 +227,48 @@ public class NumberUtilTest {
 			fail("Expected exception " + IllegalArgumentException.class.getName());
 		} catch (IllegalArgumentException expected) {
 			assertThat(expected.getMessage(), is("Argument must be greater than 0; got 0"));
+		}
+	}
+
+	@Test
+	public void digitSum_long_works() {
+		assertThat(digitSum(0L), is(0L));
+		assertThat(digitSum(1L), is(1L));
+		assertThat(digitSum(9L), is(9L));
+		assertThat(digitSum(10L), is(1L));
+		assertThat(digitSum(19L), is(10L));
+		assertThat(digitSum(135L), is(9L));
+		assertThat(digitSum(513L), is(9L));
+	}
+
+	@Test
+	public void digitSum_BigInteger_works() {
+		assertThat(digitSum(bigInt(0L)), is(0L));
+		assertThat(digitSum(bigInt(1L)), is(1L));
+		assertThat(digitSum(bigInt(9L)), is(9L));
+		assertThat(digitSum(bigInt(10L)), is(1L));
+		assertThat(digitSum(bigInt(19L)), is(10L));
+		assertThat(digitSum(bigInt(135L)), is(9L));
+		assertThat(digitSum(bigInt(513L)), is(9L));
+	}
+
+	@Test
+	public void digitSum_long_minimum() {
+		try {
+			digitSum(-1L);
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Only non-negative numbers supported; got -1"));
+		}
+	}
+
+	@Test
+	public void digitSum_BigInteger_minimum() {
+		try {
+			digitSum(bigInt(-1L));
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Only non-negative numbers supported; got -1"));
 		}
 	}
 }

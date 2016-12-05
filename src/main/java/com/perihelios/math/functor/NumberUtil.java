@@ -177,6 +177,30 @@ public class NumberUtil {
 		return divisors;
 	}
 
+	public static long digitSum(long n) {
+		if (n < 0L) throw new IllegalArgumentException("Only non-negative numbers supported; got " + n);
+
+		long sum = 0L;
+
+		for (char digit : String.valueOf(n).toCharArray()) {
+			sum += digit - '0';
+		}
+
+		return sum;
+	}
+
+	public static long digitSum(BigInteger n) {
+		if (n.signum() < 0) throw new IllegalArgumentException("Only non-negative numbers supported; got " + n);
+
+		long sum = 0L;
+
+		for (char digit : n.toString().toCharArray()) {
+			sum += digit - '0';
+		}
+
+		return sum;
+	}
+
 	// Prevent instantiation of this class
 	private NumberUtil() {}
 }
