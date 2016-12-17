@@ -197,16 +197,16 @@ public class DigitizedDecimal extends Number implements Comparable<DigitizedDeci
 	}
 
 	public boolean digitsAllOdd() {
-		for (long digit : digits) {
-			if ((digit & 1) == 0) return false;
+		for (int i = offset; i < digits.length; i++) {
+			if ((digits[i] & 1) == 0) return false;
 		}
 
 		return true;
 	}
 
 	public boolean digitsAllEven() {
-		for (long digit : digits) {
-			if ((digit & 1) != 0) return false;
+		for (int i = offset; i < digits.length; i++) {
+			if ((digits[i] & 1) != 0) return false;
 		}
 
 		return true;

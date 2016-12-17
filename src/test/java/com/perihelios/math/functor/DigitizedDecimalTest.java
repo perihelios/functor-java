@@ -175,6 +175,9 @@ public class DigitizedDecimalTest {
 		assertThat(new DigitizedDecimal(310).digitsAllOdd(), is(false));
 		assertThat(new DigitizedDecimal(321).digitsAllOdd(), is(false));
 		assertThat(new DigitizedDecimal(371).digitsAllOdd(), is(true));
+
+		// Case with non-zero offset
+		assertThat(new DigitizedDecimal(50).add(new DigitizedDecimal(5)).digitsAllOdd(), is(true));
 	}
 
 	@Test
@@ -191,6 +194,9 @@ public class DigitizedDecimalTest {
 		assertThat(new DigitizedDecimal(421).digitsAllEven(), is(false));
 		assertThat(new DigitizedDecimal(124).digitsAllEven(), is(false));
 		assertThat(new DigitizedDecimal(486).digitsAllEven(), is(true));
+
+		// Case with non-zero offset
+		assertThat(new DigitizedDecimal(40).add(new DigitizedDecimal(4)).digitsAllEven(), is(true));
 	}
 
 	@Test
