@@ -162,6 +162,38 @@ public class DigitizedDecimalTest {
 	}
 
 	@Test
+	public void digitsAllOdd_works() {
+		assertThat(new DigitizedDecimal(0).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(1).digitsAllOdd(), is(true));
+		assertThat(new DigitizedDecimal(2).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(3).digitsAllOdd(), is(true));
+
+		assertThat(new DigitizedDecimal(30).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(31).digitsAllOdd(), is(true));
+		assertThat(new DigitizedDecimal(301).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(411).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(310).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(321).digitsAllOdd(), is(false));
+		assertThat(new DigitizedDecimal(371).digitsAllOdd(), is(true));
+	}
+
+	@Test
+	public void digitsAllEven_works() {
+		assertThat(new DigitizedDecimal(0).digitsAllEven(), is(true));
+		assertThat(new DigitizedDecimal(1).digitsAllEven(), is(false));
+		assertThat(new DigitizedDecimal(2).digitsAllEven(), is(true));
+		assertThat(new DigitizedDecimal(3).digitsAllEven(), is(false));
+
+		assertThat(new DigitizedDecimal(40).digitsAllEven(), is(true));
+		assertThat(new DigitizedDecimal(41).digitsAllEven(), is(false));
+		assertThat(new DigitizedDecimal(408).digitsAllEven(), is(true));
+		assertThat(new DigitizedDecimal(418).digitsAllEven(), is(false));
+		assertThat(new DigitizedDecimal(421).digitsAllEven(), is(false));
+		assertThat(new DigitizedDecimal(124).digitsAllEven(), is(false));
+		assertThat(new DigitizedDecimal(486).digitsAllEven(), is(true));
+	}
+
+	@Test
 	public void compareTo_works() {
 		assertThat(new DigitizedDecimal(0).compareTo(new DigitizedDecimal(0)), is(0));
 		assertThat(new DigitizedDecimal(1).compareTo(new DigitizedDecimal(1)), is(0));

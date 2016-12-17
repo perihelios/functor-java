@@ -196,6 +196,22 @@ public class DigitizedDecimal extends Number implements Comparable<DigitizedDeci
 		return new DigitizedDecimal(negative, newDigits, 0);
 	}
 
+	public boolean digitsAllOdd() {
+		for (long digit : digits) {
+			if ((digit & 1) == 0) return false;
+		}
+
+		return true;
+	}
+
+	public boolean digitsAllEven() {
+		for (long digit : digits) {
+			if ((digit & 1) != 0) return false;
+		}
+
+		return true;
+	}
+
 	@Override
 	public int intValue() {
 		return (int) longValue();
