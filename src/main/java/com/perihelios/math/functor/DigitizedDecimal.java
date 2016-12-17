@@ -178,6 +178,24 @@ public class DigitizedDecimal extends Number implements Comparable<DigitizedDeci
 		return true;
 	}
 
+	public DigitizedDecimal reverseDigits() {
+		int length = length();
+
+		for (int i = digits.length - 1; i > offset; i--) {
+			if (digits[i] != 0) break;
+
+			length--;
+		}
+
+		long[] newDigits = new long[length];
+
+		for (int index = offset + length - 1, newDigitsIndex = 0; newDigitsIndex < length; index--, newDigitsIndex++) {
+			newDigits[newDigitsIndex] = digits[index];
+		}
+
+		return new DigitizedDecimal(negative, newDigits, 0);
+	}
+
 	@Override
 	public int intValue() {
 		return (int) longValue();

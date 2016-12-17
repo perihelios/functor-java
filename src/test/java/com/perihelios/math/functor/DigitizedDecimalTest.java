@@ -143,6 +143,25 @@ public class DigitizedDecimalTest {
 	}
 
 	@Test
+	public void reverseDigits_works() {
+		assertThat(new DigitizedDecimal(0).reverseDigits(), is(new DigitizedDecimal(0)));
+		assertThat(new DigitizedDecimal(1).reverseDigits(), is(new DigitizedDecimal(1)));
+		assertThat(new DigitizedDecimal(-1).reverseDigits(), is(new DigitizedDecimal(-1)));
+
+		assertThat(new DigitizedDecimal(10).reverseDigits(), is(new DigitizedDecimal(1)));
+		assertThat(new DigitizedDecimal(20).reverseDigits(), is(new DigitizedDecimal(2)));
+		assertThat(new DigitizedDecimal(100).reverseDigits(), is(new DigitizedDecimal(1)));
+
+		assertThat(new DigitizedDecimal(63).reverseDigits(), is(new DigitizedDecimal(36)));
+		assertThat(new DigitizedDecimal(36).reverseDigits(), is(new DigitizedDecimal(63)));
+
+		assertThat(new DigitizedDecimal(123).reverseDigits(), is(new DigitizedDecimal(321)));
+		assertThat(new DigitizedDecimal(1230).reverseDigits(), is(new DigitizedDecimal(321)));
+		assertThat(new DigitizedDecimal(1230000).reverseDigits(), is(new DigitizedDecimal(321)));
+		assertThat(new DigitizedDecimal(-1230000).reverseDigits(), is(new DigitizedDecimal(-321)));
+	}
+
+	@Test
 	public void compareTo_works() {
 		assertThat(new DigitizedDecimal(0).compareTo(new DigitizedDecimal(0)), is(0));
 		assertThat(new DigitizedDecimal(1).compareTo(new DigitizedDecimal(1)), is(0));
