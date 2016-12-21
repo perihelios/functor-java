@@ -200,6 +200,54 @@ public class DigitizedDecimalTest {
 	}
 
 	@Test
+	public void overlay_works() {
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {1}), is(new DigitizedDecimal(1)));
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {2}), is(new DigitizedDecimal(2)));
+		assertThat(new DigitizedDecimal(1).overlay(new long[] {2}), is(new DigitizedDecimal(2)));
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {-1}), is(new DigitizedDecimal(0)));
+		assertThat(new DigitizedDecimal(1).overlay(new long[] {-1}), is(new DigitizedDecimal(1)));
+		assertThat(new DigitizedDecimal(1).overlay(new long[] {-17}), is(new DigitizedDecimal(1)));
+
+		assertThat(new DigitizedDecimal(10).overlay(new long[] {1}), is(new DigitizedDecimal(11)));
+		assertThat(new DigitizedDecimal(10).overlay(new long[] {9}), is(new DigitizedDecimal(19)));
+		assertThat(new DigitizedDecimal(90).overlay(new long[] {9}), is(new DigitizedDecimal(99)));
+
+		assertThat(new DigitizedDecimal(10).overlay(new long[] {-1, 9}), is(new DigitizedDecimal(19)));
+		assertThat(new DigitizedDecimal(10).overlay(new long[] {9, -1}), is(new DigitizedDecimal(90)));
+		assertThat(new DigitizedDecimal(19).overlay(new long[] {9, -1}), is(new DigitizedDecimal(99)));
+
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {9, -1}), is(new DigitizedDecimal(90)));
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {-1, -1}), is(new DigitizedDecimal(0)));
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {7, -1}), is(new DigitizedDecimal(70)));
+		assertThat(new DigitizedDecimal(0).overlay(new long[] {7, -1}), is(new DigitizedDecimal(70)));
+		assertThat(new DigitizedDecimal(9).overlay(new long[] {-1, 7, -1}), is(new DigitizedDecimal(79)));
+		assertThat(new DigitizedDecimal(49).overlay(new long[] {-1, 7, -1}), is(new DigitizedDecimal(79)));
+
+		assertThat(new DigitizedDecimal(1234567890).overlay(new long[] {0, -1, 7, -1, 9, -1, 4, -1, 5, -1}), is(new DigitizedDecimal(274964850)));
+		assertThat(new DigitizedDecimal(1234567890).overlay(new long[] {0, -1, 7, -1, 9, -1, 4, -1, 5}), is(new DigitizedDecimal(1037597495)));
+
+		// Case with non-zero offset
+		assertThat(new DigitizedDecimal(40).add(new DigitizedDecimal(9)).overlay(new long[] {-1, 7, -1}), is(new DigitizedDecimal(79)));
+	}
+
+	@Test
+	public void overlay_checks_for_overflow() {
+		try {
+			new DigitizedDecimal(1).overlay(new long[] {10});
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Overlay digits must be <= 9; got 10 at index 0"));
+		}
+
+		try {
+			new DigitizedDecimal(1).overlay(new long[] {10, -1});
+			fail("Expected exception " + IllegalArgumentException.class.getName());
+		} catch (IllegalArgumentException expected) {
+			assertThat(expected.getMessage(), is("Overlay digits must be <= 9; got 10 at index 0"));
+		}
+	}
+
+	@Test
 	public void compareTo_works() {
 		assertThat(new DigitizedDecimal(0).compareTo(new DigitizedDecimal(0)), is(0));
 		assertThat(new DigitizedDecimal(1).compareTo(new DigitizedDecimal(1)), is(0));

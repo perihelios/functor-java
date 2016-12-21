@@ -212,6 +212,63 @@ public class DigitizedDecimal extends Number implements Comparable<DigitizedDeci
 		return true;
 	}
 
+	public DigitizedDecimal overlay(long[] overlayDigits) {
+		int newDigitsLength = max(length(), overlayDigits.length);
+		long[] newDigits = new long[newDigitsLength];
+		int indexOldDigits = digits.length - 1;
+		int indexOverlayDigits = overlayDigits.length - 1;
+		int indexNewDigits = newDigitsLength - 1;
+
+		while (indexOldDigits >= offset && indexOverlayDigits >= 0) {
+			long overlayDigit = overlayDigits[indexOverlayDigits];
+
+			if (overlayDigit > 9) {
+				throw new IllegalArgumentException("Overlay digits must be <= 9; got " + overlayDigit + " at index " + indexOverlayDigits);
+			}
+
+			if (overlayDigit >= 0) {
+				newDigits[indexNewDigits] = overlayDigit;
+			} else {
+				newDigits[indexNewDigits] = digits[indexOldDigits];
+			}
+
+			indexOldDigits--;
+			indexOverlayDigits--;
+			indexNewDigits--;
+		}
+
+		while (indexOldDigits >= offset) {
+			newDigits[indexNewDigits--] = digits[indexOldDigits--];
+		}
+
+		while (indexOverlayDigits >= 0) {
+			long overlayDigit = overlayDigits[indexOverlayDigits];
+
+			if (overlayDigit > 9) {
+				throw new IllegalArgumentException("Overlay digits must be <= 9; got " + overlayDigit + " at index " + indexOverlayDigits);
+			}
+
+			if (overlayDigit >= 0) {
+				newDigits[indexNewDigits] = overlayDigit;
+			} else {
+				newDigits[indexNewDigits] = 0;
+			}
+
+			indexOverlayDigits--;
+			indexNewDigits--;
+		}
+
+		int newDigitsOffset = 0;
+
+		while (newDigitsOffset < newDigitsLength - 1) {
+			if (newDigits[newDigitsOffset] != 0) break;
+
+			newDigitsOffset++;
+		}
+
+		return new DigitizedDecimal(negative, newDigits, newDigitsOffset);
+	}
+
 	@Override
 	public int intValue() {
 		return (int) longValue();
