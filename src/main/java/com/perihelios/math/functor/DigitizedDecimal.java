@@ -349,7 +349,7 @@ public class DigitizedDecimal extends Number implements Comparable<DigitizedDeci
 		}
 	}
 
-	private int length() {
+	public int length() {
 		return digits.length - offset;
 	}
 

@@ -248,6 +248,16 @@ public class DigitizedDecimalTest {
 	}
 
 	@Test
+	public void length_works() {
+		assertThat(new DigitizedDecimal(0).length(), is(1));
+		assertThat(new DigitizedDecimal(9).length(), is(1));
+		assertThat(new DigitizedDecimal(10).length(), is(2));
+		assertThat(new DigitizedDecimal(99).length(), is(2));
+		assertThat(new DigitizedDecimal(99).add(new DigitizedDecimal(0)).length(), is(2));
+		assertThat(new DigitizedDecimal(99).add(new DigitizedDecimal(1)).length(), is(3));
+	}
+
+	@Test
 	public void compareTo_works() {
 		assertThat(new DigitizedDecimal(0).compareTo(new DigitizedDecimal(0)), is(0));
 		assertThat(new DigitizedDecimal(1).compareTo(new DigitizedDecimal(1)), is(0));
