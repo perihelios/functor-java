@@ -118,5 +118,8 @@ public class SimplePrimeEngineTest {
 		assertThat(engine.isPrime(3), is(true));
 		assertThat(engine.isPrime(4), is(false));
 		assertThat(engine.isPrime(4583), is(true));
+		assertThat(engine.isPrime(4584), is(false));
+		assertThat(engine.isPrime(4583 * 4583), is(false));
+		assertThat(engine.isPrime(999983), is(true));
 	}
 }

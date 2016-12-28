@@ -1,6 +1,5 @@
 package com.perihelios.math.functor;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
-import static java.math.BigInteger.valueOf;
 import static java.util.Arrays.asList;
 
 public class SimplePrimeEngine implements PrimeEngine {
@@ -42,7 +40,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 			return factors;
 		}
 
-		long max = squareRootEngine.sqrtFloor(BigInteger.valueOf(n)).longValue();
+		long max = squareRootEngine.sqrtFloor(n);
 		long working = n;
 		buildPrimesTo(max, Long.MAX_VALUE);
 
@@ -66,7 +64,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 
 			n = working;
 
-			max = squareRootEngine.sqrtFloor(BigInteger.valueOf(working)).longValue();
+			max = squareRootEngine.sqrtFloor(working);
 		}
 
 		if (working != 1L) {
@@ -147,7 +145,7 @@ public class SimplePrimeEngine implements PrimeEngine {
 		while (checked + 2L <= ceiling && maxCountToFind > 0L) {
 			checked += 2L;
 
-			long upperBound = squareRootEngine.sqrtFloor(valueOf(checked)).longValue();
+			long upperBound = squareRootEngine.sqrtFloor(checked);
 
 			for (long knownPrime : knownPrimes) {
 				if (knownPrime > upperBound) break;
